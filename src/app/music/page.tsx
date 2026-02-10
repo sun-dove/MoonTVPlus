@@ -359,6 +359,13 @@ export default function MusicPage() {
     }
   }, [playRecords, pendingSongToPlay]);
 
+  // 同步音量状态到 audio 元素
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
   // 执行前端 transform（用于 Cloudflare 环境）
   const executeTransform = (data: any) => {
     if (data && typeof data === 'object' && data.__transform) {
