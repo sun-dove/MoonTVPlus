@@ -123,6 +123,7 @@ export const UserMenu: React.FC = () => {
   const [danmakuMaxCount, setDanmakuMaxCount] = useState(0);
   const [danmakuHeatmapDisabled, setDanmakuHeatmapDisabled] = useState(false);
   const [searchTraditionalToSimplified, setSearchTraditionalToSimplified] = useState(false);
+  const [exactSearch, setExactSearch] = useState(true);
 
   // 邮件通知设置
   const [userEmail, setUserEmail] = useState('');
@@ -471,6 +472,12 @@ export const UserMenu: React.FC = () => {
       const savedSearchTraditionalToSimplified = localStorage.getItem('searchTraditionalToSimplified');
       if (savedSearchTraditionalToSimplified !== null) {
         setSearchTraditionalToSimplified(savedSearchTraditionalToSimplified === 'true');
+      }
+
+      // 加载精确搜索设置
+      const savedExactSearch = localStorage.getItem('exactSearch');
+      if (savedExactSearch !== null) {
+        setExactSearch(savedExactSearch === 'true');
       }
     }
   }, []);
@@ -928,6 +935,13 @@ export const UserMenu: React.FC = () => {
     setSearchTraditionalToSimplified(value);
     if (typeof window !== 'undefined') {
       localStorage.setItem('searchTraditionalToSimplified', String(value));
+    }
+  };
+
+  const handleExactSearchToggle = (value: boolean) => {
+    setExactSearch(value);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('exactSearch', String(value));
     }
   };
 
@@ -1893,6 +1907,30 @@ export const UserMenu: React.FC = () => {
                           className='sr-only peer'
                           checked={searchTraditionalToSimplified}
                           onChange={(e) => handleSearchTraditionalToSimplifiedToggle(e.target.checked)}
+                        />
+                        <div className='w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-colors dark:bg-gray-600'></div>
+                        <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5'></div>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* 精确搜索 */}
+                  <div className='flex items-center justify-between'>
+                    <div>
+                      <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                        精确搜索
+                      </h4>
+                      <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
+                        开启后，搜索结果将过滤掉不包含搜索词的内容
+                      </p>
+                    </div>
+                    <label className='flex items-center cursor-pointer'>
+                      <div className='relative'>
+                        <input
+                          type='checkbox'
+                          className='sr-only peer'
+                          checked={exactSearch}
+                          onChange={(e) => handleExactSearchToggle(e.target.checked)}
                         />
                         <div className='w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-colors dark:bg-gray-600'></div>
                         <div className='absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5'></div>
